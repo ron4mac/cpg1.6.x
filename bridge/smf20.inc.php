@@ -8,7 +8,7 @@
  * @license    GNU General Public License version 3 or later; see LICENSE
  *
  * bridge/smf20.inc.php
- * @since  1.6.08
+ * @since  1.6.04
  */
 
 if (!defined('IN_COPPERMINE')) die('Not in Coppermine...');
@@ -48,7 +48,6 @@ if (isset($bridge_lookup)) {
             $this->multigroups = 1;
             $this->group_overrride = 1;
             $this->cookie_name = $cookiename;
-            if (!empty($auth_secret)) $this->auth_secret = $auth_secret;	// in versions > 2.0.15
 
             // Board table names
             $this->table = array(
@@ -136,11 +135,7 @@ if (isset($bridge_lookup)) {
         // definition of actions required to convert a password from user database form to cookie form
         function udb_hash_db($password)
         {
-        	if (isset($this->auth_secret)) {	// in versions > 2.0.15
-        		return hash_hmac('sha1', $password, $this->auth_secret);
-        	} else{
-            	return $password;
-        	}
+            return $password; // unused
         }
 
         // Get groups of which user is member
