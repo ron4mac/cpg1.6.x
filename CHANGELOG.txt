@@ -3,11 +3,11 @@
  *
  * v1.0 originally written by Gregory Demar
  *
- * @copyright  Copyright (c) 2003-2019 Coppermine Dev Team
+ * @copyright  Copyright (c) 2003-2020 Coppermine Dev Team
  * @license    GNU General Public License version 3 or later; see LICENSE
  *
  * CHANGELOG.txt
- * @since  1.6.08
+ * @since  1.6.09
  */
 Changelog
 =========
@@ -20,6 +20,19 @@ Changelog
 [S] = Security fix (issues that are related to security)
 *********************************************
 
+2020-05-01 [B] Upload plugin upload_h5a fails to install if DB already has configuration {ron4mac}
+2020-04-30 [A] Provide themes with a method to request a body tag class based on current page {ron4mac}
+2020-04-28 [M] Cosmetic changes/corrections to admin tools, edit pics and contact {heismauri}
+2020-03-27 [B] Failure in include/archive.php due to __construct() changes {ron4mac}
+2020-03-23 [B] Use 'dbcharset' parameter when opening bridged database {ron4mac}
+2020-02-26 [O,M] Simlify log creation and display {ron4mac}
+2020-02-26 [M] Clean up code involved in PHP warnings {ron4mac}
+2020-02-25 [M] Remove use of deprecated *magic_quotes* functions {ron4mac}
+2020-02-07 [A] Provide themes with a method to use font icons {ron4mac}
+2020-02-07 [M] Clean up rating icon in pics edit {ron4mac}
+2020-02-05 [B] Change javascript 'zebra' code to apply to table cells instead of rows {ron4mac}
+2020-01-22 [B] Refresh form token when admin tools process for extra long times {ron4mac}
+2019-12-29 [A] Add bridge compatibility for SMF2.0.x versions greater than 2.0.15 {ron4mac}
 2019-12-07 [M] Update remaining old class constructors to new style {Dukecz}
 2019-11-08 [B] Abort install if no PHP XML parser cabability {ron4mac}
 2019-08-09 [B] Capture and display admin tool critical errors {ron4mac}

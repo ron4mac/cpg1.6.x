@@ -4,11 +4,11 @@
  *
  * v1.0 originally written by Gregory Demar
  *
- * @copyright  Copyright (c) 2003-2019 Coppermine Dev Team
+ * @copyright  Copyright (c) 2003-2020 Coppermine Dev Team
  * @license    GNU General Public License version 3 or later; see LICENSE
  *
  * include/themes.inc.php
- * @since  1.6.07
+ * @since  1.6.09
  */
 
 /////////////////////////////////////////////////////////////////
@@ -1521,7 +1521,7 @@ if (!function_exists('pageheader')) {  //{THEMES}
 ******************************************************************************/
 function pageheader($section, $meta = '')
 {
-    global $CONFIG, $THEME_DIR;
+    global $CONFIG, $THEME_DIR, $CPG_PHP_SELF;
     global $template_header, $lang_charset, $lang_text_dir;
 
     $custom_header = cpg_get_custom_include($CONFIG['custom_header_path']);
@@ -1546,6 +1546,10 @@ function pageheader($section, $meta = '')
         '{JAVASCRIPT}' => theme_javascript_head(),
         '{MESSAGE_BLOCK}' => theme_display_message_block(),
     );
+
+	if (defined('THEME_WANTS_BODY_CLASS')) {
+		$template_vars['{BODY_CLASS}'] = 'BC-'.basename($CPG_PHP_SELF,'.php');
+	}
 
     $template_vars = CPGPluginAPI::filter('theme_pageheader_params', $template_vars);
     echo template_eval($template_header, $template_vars);
@@ -2850,13 +2854,13 @@ function theme_display_thumbnails(&$thumb_list, $nbThumb, $album_name, $aid, $ca
                 '{ALBUM_ID}'   => $aid,
                 '{CAT_ID}'     => ($cat > 0 ? $cat : $CURRENT_ALBUM_DATA['category']),
                 '{MODIFY_LNK}'     => $lang_common['album_properties'],
-                '{MODIFY_ICO}'     => cpg_fetch_icon('modifyalb', 1),
+                '{MODIFY_ICO}'     => cpg_fetch_icon('modifyalb', 0),
                 '{PARENT_CAT_LNK}' => $lang_common['parent_category'],
-                '{PARENT_CAT_ICO}' => cpg_fetch_icon('category', 1),
+                '{PARENT_CAT_ICO}' => cpg_fetch_icon('category', 0),
                 '{EDIT_PICS_LNK}'  => $lang_common['edit_files'],
-                '{EDIT_PICS_ICO}'  => cpg_fetch_icon('edit', 1),
+                '{EDIT_PICS_ICO}'  => cpg_fetch_icon('edit', 0),
                 '{ALBUM_MGR_LNK}'  => $lang_common['album_manager'],
-                '{ALBUM_MGR_ICO}'  => cpg_fetch_icon('alb_mgr', 1),
+                '{ALBUM_MGR_ICO}'  => cpg_fetch_icon('alb_mgr', 0),
             );
         } else {
             $param = array();
@@ -4143,7 +4147,7 @@ function theme_display_fullsize_pic()
     <body style="margin:0px; padding:0px; background-color: gray;">
 
 EOT;
-    if ($pic_html) {
+    if (!empty($pic_html)) {
         $fullsize_html .= $pic_html;
     } else {
         if ($CONFIG['transparent_overlay'] == 1) {

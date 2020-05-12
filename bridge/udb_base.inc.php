@@ -4,14 +4,14 @@
  *
  * v1.0 originally written by Gregory Demar
  *
- * @copyright  Copyright (c) 2003-2018 Coppermine Dev Team
+ * @copyright  Copyright (c) 2003-2020 Coppermine Dev Team
  * @license    GNU General Public License version 3 or later; see LICENSE
  *
  * bridge/udb_base.inc.php
- * @since  1.6.04
+ * @since  1.6.09
  */
 
-if (!defined('IN_COPPERMINE')) die('Not in Coppermine...');
+defined('IN_COPPERMINE') or die('Not in Coppermine...');
 
 if (isset($bridge_lookup)) {
 	return;
@@ -37,13 +37,15 @@ class core_udb
 		} else {
 			// Connect to udb database if necessary
 			if (!$this->can_join_tables) {
-				$this->dbObj = new CPG_Dbase( array(
-						'dbtype'	=> $CONFIG['dbtype'],
-						'dbserver'	=> $this->db['host'],
-						'dbuser'	=> $this->db['user'],
-						'dbpass'	=> $this->db['password'],
-						'dbname'	=> $this->db['name']
-						));
+				$dbparms = array(
+					'dbtype'	=> $CONFIG['dbtype'],
+					'dbserver'	=> $this->db['host'],
+					'dbuser'	=> $this->db['user'],
+					'dbpass'	=> $this->db['password'],
+					'dbname'	=> $this->db['name']
+					);
+				if (!empty($CONFIG['dbcharset'])) $dbparms['dbcharset'] = $CONFIG['dbcharset'];
+				$this->dbObj = new CPG_Dbase($dbparms);
 				if (!$this->dbObj->isConnected()) {
 					die("<strong>Coppermine critical error</strong>:<br />Unable to connect to UDB database !<br /><br />Error: <strong>" . $this->dbObj->getError(false, true) . "</strong>");
 				}
@@ -380,9 +382,7 @@ class core_udb
 		$USER_DATA['can_see_all_albums'] = $USER_DATA['has_admin_access'];
 		$USER_DATA["group_id"] = $pri_group;
 		$USER_DATA['groups'] = $groups;
-		if (get_magic_quotes_gpc() == 0) {
-			$USER_DATA['group_name'] = cpg_db_escape_string($USER_DATA['group_name']);
-		}
+		$USER_DATA['group_name'] = cpg_db_escape_string($USER_DATA['group_name']);
 		return($USER_DATA);
 	}
 	// end function get_user_data
